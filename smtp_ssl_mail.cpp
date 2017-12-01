@@ -40,8 +40,8 @@ char buf[1000];     //缓存区大小
 //Base64 编码
 void base64_encode(const char *ori, char *res)
 {
-	int len, k, i;
-	k = len = strlen(ori);
+    int len, k, i;
+    k = len = strlen(ori);
     
     if(len % 3 != 0)
         k = (len / 3 + 1) * 3;
@@ -55,8 +55,8 @@ void base64_encode(const char *ori, char *res)
     }
 
     for(i = 0;i < (len + 2) / 3 * 4;i++)
-	{
-		if(i < (len + 2) / 3 + len)
+    {
+        if(i < (len + 2) / 3 + len)
         {
             if(res[i] >= 0&&res[i] <= 25)
                 res[i] += 65;
@@ -69,10 +69,10 @@ void base64_encode(const char *ori, char *res)
             else if(res[i] == 63)
                 res[i] = 47;
         }
-		else
-			res[i] = '=';
-	}
-	res[i] = '\0';
+        else
+            res[i] = '=';
+    }
+    res[i] = '\0';
 }
 
 int main(void)
