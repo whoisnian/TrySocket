@@ -50,3 +50,8 @@ Try Socket.
 * Set a hostname.  
 * `$ g++ http_get.cpp -o http_get`  
 * `$ ./http_get`  
+
+### https_get
+* Set a hostname.  
+* `$ g++ https_get.cpp -o https_get`  
+* `$ ./https_get` 
