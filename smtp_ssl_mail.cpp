@@ -40,23 +40,23 @@ char buf[1000];     //缓存区大小
 //Base64 编码
 void base64_encode(const char *ori, char *res)
 {
-    int len, k, i;
-    k = len = strlen(ori);
+	int len, k, i;
+	k = len = strlen(ori);
     
     if(len % 3 != 0)
         k = (len / 3 + 1) * 3;
 
     for(i = 0;i * 3 < k;i++)
     {
-        res[i*4] = (ori[i*3] >> 2) & 63;
-        res[i*4+1] = ((ori[i*3] << 4) | (ori[i*3+1] >> 4)) & 63;
-        res[i*4+2] = ((ori[i*3+1] << 2) | (ori[i*3+2] >> 6)) & 63;
-        res[i*4+3] = ori[i*3+2] & 63;
+        res[i*4] = (ori[i*3] & 0xfc) >> 2;
+        res[i*4+1] = ((ori[i*3] & 0x03) << 4) + ((ori[i*3+1] & 0xf0) >> 4);
+        res[i*4+2] = ((ori[i*3+1] & 0x0f) << 2) + ((ori[i*3+2] & 0xc0) >> 6);
+        res[i*4+3] = ori[i*3+2] & 0x3f;
     }
 
     for(i = 0;i < (len + 2) / 3 * 4;i++)
-    {
-        if(i < (len + 2) / 3 + len)
+	{
+		if(i < (len + 2) / 3 + len)
         {
             if(res[i] >= 0&&res[i] <= 25)
                 res[i] += 65;
@@ -69,10 +69,10 @@ void base64_encode(const char *ori, char *res)
             else if(res[i] == 63)
                 res[i] = 47;
         }
-        else
-            res[i] = '=';
-    }
-    res[i] = '\0';
+		else
+			res[i] = '=';
+	}
+	res[i] = '\0';
 }
 
 int main(void)
@@ -186,6 +186,10 @@ int main(void)
     time(&Time);
     strftime(time_of_now, 50, "%a, %d %b %Y %H:%I:%S %z", localtime(&Time));
 
+    //对邮件主题进行编码
+    char subject[200];
+    base64_encode(SUBJECT, subject);
+    
     //设置Content-Type
     char type[50];
     if(!strcmp(TYPE, "html"))
@@ -194,7 +198,7 @@ int main(void)
         strcpy(type, "text/plain");
 
     //发送数据
-    sprintf(buf, "Date: %s\r\nTo: %s\r\nFrom: %s\r\nSubject: %s\r\nContent-Type: %s; charset=%s\r\n\r\n%s\r\n\r\n.\r\n", time_of_now, MAILTO, FROM, SUBJECT, type, CHARSET, CONTENT);
+    sprintf(buf, "Date: %s\r\nTo: %s\r\nFrom: %s\r\nSubject: =?%s?B?%s?=\r\nContent-Type: %s; charset=%s\r\n\r\n%s\r\n\r\n.\r\n", time_of_now, MAILTO, FROM, CHARSET, subject, type, CHARSET, CONTENT);
     SSL_write(ssl, buf, strlen(buf));
 
     len = SSL_read(ssl, buf, sizeof(buf));
