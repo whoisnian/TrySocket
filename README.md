@@ -45,3 +45,8 @@ Try Socket.
   ```
 * `$ sudo ./tcp_http_server`
 * Visit [http://localhost](http://localhost) with browser to get the content of index.html.  
+
+### http_get
+* Set a hostname.  
+* `$ g++ http_get.cpp -o http_get`  
+* `$ ./http_get`  
