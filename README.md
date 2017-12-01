@@ -55,3 +55,8 @@ Try Socket.
 * Set a hostname.  
 * `$ g++ https_get.cpp -o https_get`  
 * `$ ./https_get` 
+
+### smtp_ssl_mail
+* Complete your own information.
+* `$ g++ smtp_ssl_mail.cpp -o smtp_ssl_mail -lssl -lcrypto`  
+* `$ ./mail`
