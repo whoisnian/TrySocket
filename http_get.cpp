@@ -34,27 +34,27 @@ int main(void)
 
     //创建服务器端socket，地址族为AF_INET(IPv4)，传输方式为TCP
     int server_socket;
-	server_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    server_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
-	//初始化IP为得到的IP，端口为已设置的port
-	struct sockaddr_in server_addr;
-	memset(&server_addr, 0, sizeof(server_addr));
-	server_addr.sin_family = AF_INET;
-	server_addr.sin_port = htons(PORT);
-	server_addr.sin_addr.s_addr = inet_addr(ip);
-		
-	//连接服务器
-	connect(server_socket, (struct sockaddr*)&server_addr, sizeof(server_addr));
+    //初始化IP为得到的IP，端口为已设置的port
+    struct sockaddr_in server_addr;
+    memset(&server_addr, 0, sizeof(server_addr));
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(PORT);
+    server_addr.sin_addr.s_addr = inet_addr(ip);
+        
+    //连接服务器
+    connect(server_socket, (struct sockaddr*)&server_addr, sizeof(server_addr));
 
-	//发送GET请求
-	char buf[1000];
-	memset(buf, 0, sizeof(buf));
+    //发送GET请求
+    char buf[1000];
+    memset(buf, 0, sizeof(buf));
     sprintf(buf, "GET / HTTP/1.1\r\nHost: %s\r\n\r\n", HOST);
     write(server_socket, buf, sizeof(buf));
 
     //获取服务器响应
     int len;
-	do
+    do
     {
         len = read(server_socket, buf, sizeof(buf));
         buf[len] = '\0';
@@ -63,6 +63,6 @@ int main(void)
     while(len);
 
     //关闭socket
-	close(server_socket);
-	return 0;
+    close(server_socket);
+    return 0;
 }

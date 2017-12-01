@@ -30,16 +30,16 @@ Try Socket.
   ```
   <html>
   <head>
-	<title>
-	  Permission denied
-	</title>
+    <title>
+      Permission denied
+    </title>
   </head>
 
   <body>
-	<br/><br/>
-	<h1 style="font-family:verdana;font-size:10em;text-align:center;color:#303F9F">
-	  Permission denied
-	</h1>
+    <br/><br/>
+    <h1 style="font-family:verdana;font-size:10em;text-align:center;color:#303F9F">
+      Permission denied
+    </h1>
   </body>
   </html>
   ```

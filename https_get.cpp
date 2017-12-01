@@ -37,17 +37,17 @@ int main(void)
 
     //创建服务器端socket，地址族为AF_INET(IPv4)，传输方式为TCP
     int server_socket;
-	server_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    server_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
-	//初始化IP为输入的IP，端口为已设置的port
-	struct sockaddr_in server_addr;
-	memset(&server_addr, 0, sizeof(server_addr));
-	server_addr.sin_family = AF_INET;
-	server_addr.sin_port = htons(PORT);
-	server_addr.sin_addr.s_addr = inet_addr(ip);
-		
-	//客户端连接服务器
-	connect(server_socket, (struct sockaddr*)&server_addr, sizeof(server_addr));
+    //初始化IP为输入的IP，端口为已设置的port
+    struct sockaddr_in server_addr;
+    memset(&server_addr, 0, sizeof(server_addr));
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(PORT);
+    server_addr.sin_addr.s_addr = inet_addr(ip);
+        
+    //客户端连接服务器
+    connect(server_socket, (struct sockaddr*)&server_addr, sizeof(server_addr));
 
     //初始化SSL_CTX对象
     const SSL_METHOD *method = TLS_client_method();
@@ -70,7 +70,7 @@ int main(void)
     
     //获取服务器响应
     int len;
-	do
+    do
     {
         len = SSL_read(ssl, buf, sizeof(buf));
         buf[len] = '\0';
@@ -81,6 +81,6 @@ int main(void)
     //关闭SSL和socket
     SSL_free(ssl);
     SSL_CTX_free(ctx);
-	close(server_socket);
+    close(server_socket);
     return 0;
 }
